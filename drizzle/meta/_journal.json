@@ -1,0 +1,181 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1743397477544,
+      "tag": "0000_eager_mesmero",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1743450393261,
+      "tag": "0001_married_wonder_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1744028140882,
+      "tag": "0002_fancy_lady_vermin",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1774252800000,
+      "tag": "0003_swanky_voice",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1774256400000,
+      "tag": "0004_quick_language_scope",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1774261800000,
+      "tag": "0005_ja_character_svg",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1774267200000,
+      "tag": "0006_tubelex_frequency",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1774285200000,
+      "tag": "0007_dictionary_search_index",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1774375200000,
+      "tag": "0008_review_learning_steps",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1774382400000,
+      "tag": "0009_knowledge_config",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1775779200000,
+      "tag": "0010_deck_trash",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1775865600000,
+      "tag": "0011_linked_decks",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1775952000000,
+      "tag": "0012_premade_source_definitions",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1776038400000,
+      "tag": "0013_cloud_premade_decks",
+      "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1776124800000,
+      "tag": "0014_folder_language_scope",
+      "breakpoints": true
+    },
+    {
+      "idx": 15,
+      "version": "7",
+      "when": 1776211200000,
+      "tag": "0015_folder_trash",
+      "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "7",
+      "when": 1776297600000,
+      "tag": "0016_review_limits",
+      "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "7",
+      "when": 1776384000000,
+      "tag": "0017_deck_new_cards_paused",
+      "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1776556800000,
+      "tag": "0018_folder_new_cards_paused",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1776902400000,
+      "tag": "0019_ja_pitch_accents",
+      "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1776988800000,
+      "tag": "0020_permanent_deletes",
+      "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1777075200000,
+      "tag": "0021_review_undo",
+      "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "7",
+      "when": 1777161600000,
+      "tag": "0022_knowledge_pitch_accent_overrides",
+      "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1777248000000,
+      "tag": "0023_ja_pitch_accent_source_pos_class",
+      "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "6",
+      "when": 1783885001180,
+      "tag": "0024_cheerful_red_wolf",
+      "breakpoints": true
+    }
+  ]
+}

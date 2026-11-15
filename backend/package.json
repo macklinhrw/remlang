@@ -1,0 +1,27 @@
+{
+  "name": "remlang-sync-backend",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun --hot src/index.ts",
+    "start": "bun src/index.ts",
+    "check": "tsc --noEmit",
+    "db:generate": "drizzle-kit generate",
+    "db:push": "drizzle-kit push",
+    "db:backup": "bun src/scripts/backupDatabase.ts",
+    "deck": "bun src/scripts/decks.ts",
+    "premade:upload:tobira": "bun src/scripts/uploadTobiraPremades.ts"
+  },
+  "dependencies": {
+    "@clerk/backend": "^2.18.0",
+    "drizzle-orm": "^0.45.1",
+    "hono": "^4.10.1",
+    "postgres": "^3.4.7",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.2.15",
+    "drizzle-kit": "^0.31.10",
+    "typescript": "^5.9.3"
+  }
+}

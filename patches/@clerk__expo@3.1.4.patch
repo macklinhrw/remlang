@@ -1,0 +1,34 @@
+diff --git a/dist/specs/NativeClerkAuthView.js b/dist/specs/NativeClerkAuthView.js
+index 64e132094373f05b5a62693a39c3387a6d4d31f0..7b0f8680cff9a26472d34d6db9c0ca285399ee4f 100644
+--- a/dist/specs/NativeClerkAuthView.js
++++ b/dist/specs/NativeClerkAuthView.js
+@@ -29,5 +29,5 @@ __export(NativeClerkAuthView_exports, {
+   default: () => NativeClerkAuthView_default
+ });
+ module.exports = __toCommonJS(NativeClerkAuthView_exports);
+-var import_codegenNativeComponent = __toESM(require("react-native/Libraries/Utilities/codegenNativeComponent"));
+-var NativeClerkAuthView_default = (0, import_codegenNativeComponent.default)("ClerkAuthView");
++var import_react_native = require("react-native");
++var NativeClerkAuthView_default = (0, import_react_native.requireNativeComponent)("ClerkAuthView");
+diff --git a/src/specs/NativeClerkModule.ts b/src/specs/NativeClerkModule.ts
+index ad1464ebdc59e4ea7aba24ad841ef1cd12dcf312..1c38d2c1f92f714852db68a027ed54122fc575f0 100644
+--- a/src/specs/NativeClerkModule.ts
++++ b/src/specs/NativeClerkModule.ts
+@@ -11,4 +11,4 @@ export interface Spec extends TurboModule {
+   signOut(): Promise<void>;
+ }
+ 
+-export default TurboModuleRegistry?.get<Spec>('ClerkExpo') ?? null;
++export default TurboModuleRegistry.get<Spec>('ClerkExpo');
+diff --git a/dist/specs/NativeClerkUserProfileView.js b/dist/specs/NativeClerkUserProfileView.js
+index c5496c14b8eeb53a5bf96dc3879bd45c1965ce39..c2fe5d41247589fca78fe0f590c073649ea84062 100644
+--- a/dist/specs/NativeClerkUserProfileView.js
++++ b/dist/specs/NativeClerkUserProfileView.js
+@@ -29,5 +29,5 @@ __export(NativeClerkUserProfileView_exports, {
+   default: () => NativeClerkUserProfileView_default
+ });
+ module.exports = __toCommonJS(NativeClerkUserProfileView_exports);
+-var import_codegenNativeComponent = __toESM(require("react-native/Libraries/Utilities/codegenNativeComponent"));
+-var NativeClerkUserProfileView_default = (0, import_codegenNativeComponent.default)("ClerkUserProfileView");
++var import_react_native = require("react-native");
++var NativeClerkUserProfileView_default = (0, import_react_native.requireNativeComponent)("ClerkUserProfileView");
