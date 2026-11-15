@@ -13,6 +13,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Text } from "@/components/ui/text";
+import { useAccount } from "@/lib/auth/account";
 import { useDrizzle } from "@/lib/database/DrizzleContext";
 import { type ReviewType } from "@/lib/database/schema";
 import {
@@ -56,6 +57,7 @@ export default function PremadeDecksPage() {
 	const router = useRouter();
 	const drizzle = useDrizzle();
 	const { activeLanguageId } = useAppLanguage();
+	const { isSignedIn, getToken } = useAccount();
 	const [premadeCollections, setPremadeCollections] = useState<CachedPremadeBookListItem[]>([]);
 	const [syncState, setSyncState] = useState<PremadeSyncStateSnapshot | null>(null);
 	const [isLoading, setIsLoading] = useState(true);
@@ -83,6 +85,10 @@ export default function PremadeDecksPage() {
 		if (isRefreshingRef.current) {
 			return;
 		}
+		if (!isSignedIn) {
+			setRefreshError("Sign in to load premade decks.");
+			return;
+		}
 
 		isRefreshingRef.current = true;
 		setIsRefreshing(true);
@@ -91,6 +97,7 @@ export default function PremadeDecksPage() {
 		try {
 			await refreshPremadeDeckCache({
 				db: drizzle,
+				getToken,
 				languageId: activeLanguageId,
 			});
 		} catch (error) {
@@ -105,7 +112,7 @@ export default function PremadeDecksPage() {
 			isRefreshingRef.current = false;
 			setIsRefreshing(false);
 		}
-	}, [activeLanguageId, drizzle, loadCachedState]);
+	}, [activeLanguageId, drizzle, getToken, isSignedIn, loadCachedState]);
 
 	useFocusEffect(
 		useCallback(() => {

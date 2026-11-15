@@ -452,10 +452,12 @@ export const getPremadeSyncStateSnapshot = async (
 
 export const refreshPremadeDeckCache = async ({
 	db,
+	getToken,
 	languageId,
 	limit = PREMADE_PULL_PAGE_SIZE,
 }: {
 	db: DrizzleInstance;
+	getToken: () => Promise<string | null>;
 	languageId?: string;
 	limit?: number;
 }) => {
@@ -471,6 +473,7 @@ export const refreshPremadeDeckCache = async ({
 	try {
 		while (true) {
 			const payload = await pullCloudPremadeDecks({
+				getToken,
 				cursor: nextCursor,
 				languageId,
 				limit,

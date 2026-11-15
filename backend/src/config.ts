@@ -24,6 +24,14 @@ const normalizeDatabaseUrl = (value: string) => {
   };
 };
 
+const parseIdList = (value: string | undefined) => {
+  const ids = (value ?? "")
+    .split(",")
+    .map((id) => id.trim())
+    .filter(Boolean);
+  return ids.length > 0 ? new Set(ids) : null;
+};
+
 const normalizedDatabaseConfig = normalizeDatabaseUrl(requireEnv("DATABASE_URL"));
 
 export const config = {
@@ -34,4 +42,10 @@ export const config = {
   clerkSecretKey: requireEnv("CLERK_SECRET_KEY"),
   clerkPublishableKey: requireEnv("CLERK_PUBLISHABLE_KEY"),
   clerkJwtKey: process.env.CLERK_JWT_KEY ?? null,
+  /**
+   * Clerk user ids allowed to read premade decks (comma-separated). Premade
+   * decks can hold textbook-derived lists, so restrict them to the accounts
+   * that uploaded them. Unset: any signed-in user.
+   */
+  premadeDeckUserIds: parseIdList(process.env.PREMADE_DECK_USER_IDS),
 };

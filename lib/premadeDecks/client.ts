@@ -40,10 +40,20 @@ const buildUrl = (path: string, searchParams?: Record<string, string | number | 
 	return url.toString();
 };
 
-const getPremadeJson = async <TResponse>(url: string): Promise<TResponse> => {
+/** Premade decks are only served to signed-in users (textbook-derived content). */
+const getPremadeJson = async <TResponse>(
+	url: string,
+	getToken: () => Promise<string | null>,
+): Promise<TResponse> => {
+	const token = await getToken();
+	if (!token) {
+		throw new Error("Sign in to load premade decks.");
+	}
+
 	const response = await fetch(url, {
 		method: "GET",
 		headers: {
+			Authorization: `Bearer ${token}`,
 			"Content-Type": "application/json",
 		},
 	});
@@ -64,24 +74,28 @@ const getPremadeJson = async <TResponse>(url: string): Promise<TResponse> => {
 	return payload as TResponse;
 };
 
-export const fetchCloudPremadeDecks = async (input?: {
+export const fetchCloudPremadeDecks = async (input: {
+	getToken: () => Promise<string | null>;
 	languageId?: string;
 }) =>
 	getPremadeJson<PremadeListResponse>(
 		buildUrl("/", {
-			languageId: input?.languageId,
+			languageId: input.languageId,
 		}),
+		input.getToken,
 	);
 
-export const pullCloudPremadeDecks = async (input?: {
+export const pullCloudPremadeDecks = async (input: {
+	getToken: () => Promise<string | null>;
 	cursor?: string | null;
 	languageId?: string;
 	limit?: number;
 }) =>
 	getPremadeJson<PremadePullResponse>(
 		buildUrl("/pull", {
-			cursor: input?.cursor ?? undefined,
-			languageId: input?.languageId,
-			limit: input?.limit,
+			cursor: input.cursor ?? undefined,
+			languageId: input.languageId,
+			limit: input.limit,
 		}),
+		input.getToken,
 	);
