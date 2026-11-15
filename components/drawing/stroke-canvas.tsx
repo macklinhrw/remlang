@@ -34,7 +34,7 @@ import {
   useStrokesRenderer,
   Stroke,
 } from "~/lib/drawing";
-import { validateStroke } from "~/lib/drawing/validation-new";
+import { validateStroke } from "~/lib/drawing/validation";
 import { DOMParser } from "@xmldom/xmldom";
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";

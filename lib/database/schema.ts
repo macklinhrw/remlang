@@ -13,9 +13,9 @@ import {
   default_enable_fuzz,
   default_maximum_interval,
   default_request_retention,
-  State, // Keep for type hints if needed
-  Rating, // Keep for type hints if needed
-} from "ts-fsrs"; // Assuming this path is correct
+  State,
+  Rating,
+} from "ts-fsrs";
 
 // --- Default Values ---
 const default_enable_short_term = 1; // Use 1 for true in SQLite integer boolean
