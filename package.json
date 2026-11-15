@@ -12,8 +12,9 @@
 		"typecheck": "tsc --noEmit",
 		"lint": "expo lint",
 		"generate:tobira-decks": "npx tsx ./scripts/generateTobiraDecks.ts",
-		"fetch:kanjium-pitch": "npx tsx ./scripts/fetch-kanjium-pitch.ts",
-		"fetch:unidic-accent": "npx tsx ./scripts/fetch-unidic-accent.ts",
+		"fetch:resources": "tsx ./scripts/fetch-resources.ts",
+		"fetch:db": "tsx ./scripts/fetch-db.ts",
+		"db:pack": "tsx ./scripts/pack-db.ts",
 		"qa:ja-pitch-accent": "npx tsx ./scripts/qa-ja-pitch-accent.ts",
 		"audit:ja-pitch-accent": "npx tsx ./scripts/audit-ja-pitch-accent-import.ts",
 		"inspect:ja-pitch-accent": "npx tsx ./scripts/inspect-ja-pitch-accent.ts",
@@ -114,6 +115,9 @@
 	},
 	"private": true,
 	"packageManager": "pnpm@10.13.1",
+	"engines": {
+		"node": ">=22.15"
+	},
 	"pnpm": {
 		"ignoredBuiltDependencies": [
 			"esbuild"

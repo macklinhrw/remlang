@@ -14,49 +14,9 @@ export const KANJIUM_DIRNAME = "kanjium";
 export const KANJIUM_ACCENTS_FILE = "accents.txt";
 export const KANJIUM_README_FILE = "README.md";
 export const KANJIUM_LICENSE_FILE = "LICENSE.txt";
-export const KANJIUM_BASE_URL = "https://raw.githubusercontent.com/mifunetoshiro/kanjium/master";
+export const KANJIUM_BASE_URL = "https://github.com/mifunetoshiro/kanjium";
 
-export const UNIDIC_CWJ_DOWNLOADS = [
-  {
-    relativePath: UNIDIC_CWJ_README_FILE,
-    url: `${UNIDIC_CWJ_BASE_URL}/${UNIDIC_CWJ_README_FILE}`,
-  },
-  {
-    relativePath: UNIDIC_CWJ_FEATURE_FILE,
-    url: `${UNIDIC_CWJ_BASE_URL}/${UNIDIC_CWJ_FEATURE_FILE}`,
-  },
-  {
-    relativePath: UNIDIC_CWJ_LEX_FILE,
-    url: `${UNIDIC_CWJ_BASE_URL}/${UNIDIC_CWJ_LEX_FILE}`,
-  },
-  {
-    relativePath: path.join(UNIDIC_CWJ_LICENSE_DIR, "AUTHORS"),
-    url: `${UNIDIC_CWJ_BASE_URL}/liceses/AUTHORS`,
-  },
-  {
-    relativePath: path.join(UNIDIC_CWJ_LICENSE_DIR, "BSD"),
-    url: `${UNIDIC_CWJ_BASE_URL}/liceses/BSD`,
-  },
-  {
-    relativePath: path.join(UNIDIC_CWJ_LICENSE_DIR, "COPYING"),
-    url: `${UNIDIC_CWJ_BASE_URL}/liceses/COPYING`,
-  },
-] as const;
-
-export const KANJIUM_DOWNLOADS = [
-  {
-    relativePath: KANJIUM_ACCENTS_FILE,
-    url: `${KANJIUM_BASE_URL}/data/source_files/raw/${KANJIUM_ACCENTS_FILE}`,
-  },
-  {
-    relativePath: KANJIUM_README_FILE,
-    url: `${KANJIUM_BASE_URL}/${KANJIUM_README_FILE}`,
-  },
-  {
-    relativePath: KANJIUM_LICENSE_FILE,
-    url: `${KANJIUM_BASE_URL}/${KANJIUM_LICENSE_FILE}`,
-  },
-] as const;
+// Pinned download URLs and checksums for these files live in scripts/data/sources.ts.
 
 export interface JaJmdictWord {
   id: string;

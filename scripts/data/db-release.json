@@ -1,0 +1,9 @@
+{
+  "$comment": "Written by `pnpm db:pack`. Read by `pnpm fetch:db`. tag=null means no prebuilt DB has been published yet.",
+  "tag": null,
+  "asset": null,
+  "bytes": null,
+  "sha256": null,
+  "dbBytes": null,
+  "dbSha256": null
+}

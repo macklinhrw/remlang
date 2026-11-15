@@ -21,9 +21,9 @@ const VARIANTS_FILE = "CEDICT_variants_list_with_ratings.json";
 const EXAMPLES_FILE = "example-chm-en.tsv";
 const HSK_DIR = "hsk";
 const HSK_HANZI_FILE = "hanzi.csv";
-const SVGS_HANS_DIR = "assets/svgsZhHans";
-const SVGS_HANT_DIR = "assets/svgsZhHant";
-const SVGS_SPECIAL_DIR = "assets/svgsZhHansSpecial";
+const SVGS_HANS_DIR = "animCJK/svgsZhHans";
+const SVGS_HANT_DIR = "animCJK/svgsZhHant";
+const SVGS_SPECIAL_DIR = "animCJK/svgsZhHansSpecial";
 const HSK_SENTENCE_TOLERANCE = 1;
 
 type FrequencyRow = {
@@ -167,10 +167,14 @@ const buildHskWordLookup = (resourcesDir: string) => {
   return hskByWord;
 };
 
+/**
+ * Optional: the BCC/BLCU frequency list has no open licence, so it is not
+ * fetched. Without it Chinese entries simply carry no frequency rank.
+ */
 const buildFrequencyLookup = (resourcesDir: string) => {
-  const rows = JSON.parse(
-    readText(path.join(resourcesDir, RANK_FREQ_FILE)),
-  ) as FrequencyRow[];
+  const filePath = path.join(resourcesDir, RANK_FREQ_FILE);
+  if (!fs.existsSync(filePath)) return {};
+  const rows = JSON.parse(readText(filePath)) as FrequencyRow[];
 
   return rows.reduce<Record<string, number>>((acc, row) => {
     acc[cleanKey(row.key)] = row.rank + 1;
@@ -384,7 +388,6 @@ export const zhSeeder: LanguageSeeder<ZhExtracted> = {
   async prepare(ctx) {
     const requiredFiles = [
       path.join(ctx.resourcesDir, CEDICT_FILE),
-      path.join(ctx.resourcesDir, RANK_FREQ_FILE),
       path.join(ctx.resourcesDir, DECOMPOSITION_FILE),
       path.join(ctx.resourcesDir, VARIANTS_FILE),
       path.join(ctx.resourcesDir, EXAMPLES_FILE),
@@ -395,19 +398,24 @@ export const zhSeeder: LanguageSeeder<ZhExtracted> = {
 
     for (const filePath of requiredFiles) {
       if (!fs.existsSync(filePath)) {
-        throw new Error(`Missing Chinese seed file: ${filePath}`);
+        throw new Error(`Missing Chinese seed file: ${filePath} (run \`pnpm fetch:resources\`)`);
       }
+    }
+    if (!fs.existsSync(path.join(ctx.resourcesDir, RANK_FREQ_FILE))) {
+      ctx.logger.warn(
+        `optional ${RANK_FREQ_FILE} not found; Chinese entries will have no frequency rank`,
+      );
     }
 
     const requiredSvgDirs = [
-      path.join(ctx.rootDir, SVGS_HANS_DIR),
-      path.join(ctx.rootDir, SVGS_HANT_DIR),
-      path.join(ctx.rootDir, SVGS_SPECIAL_DIR),
+      path.join(ctx.resourcesDir, SVGS_HANS_DIR),
+      path.join(ctx.resourcesDir, SVGS_HANT_DIR),
+      path.join(ctx.resourcesDir, SVGS_SPECIAL_DIR),
     ];
 
     for (const dirPath of requiredSvgDirs) {
       if (!fs.existsSync(dirPath)) {
-        throw new Error(`Missing Chinese SVG directory: ${dirPath}`);
+        throw new Error(`Missing Chinese SVG directory: ${dirPath} (run \`pnpm fetch:resources\`)`);
       }
     }
 
@@ -430,9 +438,9 @@ export const zhSeeder: LanguageSeeder<ZhExtracted> = {
         .split("\n")
         .map((line) => line.split("\t")),
       svgPaths: {
-        simplified: path.join(ctx.rootDir, SVGS_HANS_DIR),
-        traditional: path.join(ctx.rootDir, SVGS_HANT_DIR),
-        special: path.join(ctx.rootDir, SVGS_SPECIAL_DIR),
+        simplified: path.join(ctx.resourcesDir, SVGS_HANS_DIR),
+        traditional: path.join(ctx.resourcesDir, SVGS_HANT_DIR),
+        special: path.join(ctx.resourcesDir, SVGS_SPECIAL_DIR),
       },
     };
   },

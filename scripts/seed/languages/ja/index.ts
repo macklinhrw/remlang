@@ -246,16 +246,16 @@ export const jaSeeder: LanguageSeeder<JaExtracted> = {
     for (const fileName of requiredFiles) {
       const fullPath = path.join(dictionaryDir, fileName);
       if (!fs.existsSync(fullPath)) {
-        throw new Error(`Missing Japanese seed file: ${fullPath}`);
+        throw new Error(`Missing Japanese seed file: ${fullPath} (run \`pnpm fetch:resources\`)`);
       }
     }
     const svgDir = path.join(ctx.resourcesDir, ANIM_CJK_DIR, ANIM_CJK_SVGS_JA_DIR);
     if (!fs.existsSync(svgDir)) {
-      throw new Error(`Missing Japanese SVG directory: ${svgDir}`);
+      throw new Error(`Missing Japanese SVG directory: ${svgDir} (run \`pnpm fetch:resources\`)`);
     }
     const tubelexPath = path.join(ctx.resourcesDir, TUBELEX_DIR, TUBELEX_FILE);
     if (!fs.existsSync(tubelexPath)) {
-      throw new Error(`Missing Japanese frequency file: ${tubelexPath}`);
+      throw new Error(`Missing Japanese frequency file: ${tubelexPath} (run \`pnpm fetch:resources\`)`);
     }
     const unidicPaths = getUnidicCwjPaths(ctx.resourcesDir);
     if (!fs.existsSync(unidicPaths.lexCsvPath)) {
