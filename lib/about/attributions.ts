@@ -32,7 +32,7 @@ export const ATTRIBUTION_SECTIONS: AttributionSection[] = [
 				role: "Chinese dictionary data",
 				license: "CC BY-SA 4.0",
 				notes:
-					"Used for Chinese entries, readings, definitions, and variant relationships.",
+					"Used for Chinese entries, readings, definitions, and variant relationships (snapshot 2024-07-10).",
 				links: [
 					{
 						label: "Source",
@@ -48,17 +48,17 @@ export const ATTRIBUTION_SECTIONS: AttributionSection[] = [
 				id: "jmdict-family",
 				name: "JMdict / KANJIDIC2 / KRADFILE / RADKFILE",
 				role: "Japanese dictionary, kanji, and component data",
-				license: "EDRDG licence terms",
+				license: "CC BY-SA 4.0 (EDRDG licence)",
 				notes:
-					"Used for Japanese entries, example-linked senses, kanji metadata, and component/radical decomposition.",
+					"Used for Japanese entries, example-linked senses, kanji metadata, and component/radical decomposition. These files are the property of the Electronic Dictionary Research and Development Group and are used in conformance with the Group's licence.",
 				links: [
 					{
 						label: "Source",
 						url: "https://github.com/scriptin/jmdict-simplified",
 					},
 					{
-						label: "EDRDG",
-						url: "https://www.edrdg.org/",
+						label: "EDRDG licence",
+						url: "https://www.edrdg.org/edrdg/licence.html",
 					},
 				],
 			},
@@ -122,7 +122,7 @@ export const ATTRIBUTION_SECTIONS: AttributionSection[] = [
 				role: "Secondary Japanese pitch-accent gap-fill data",
 				license: "CC BY-SA 4.0",
 				notes:
-					"Used only as a fallback pitch-accent source when UniDic does not provide a match. The bundled README attributes the pitch-accent additions and modifications to Uros O.",
+					"Used only as a fallback pitch-accent source when UniDic does not provide a match. The pitch accent notation, verb particle data, phonetics, homonyms and other additions or modifications to EDICT, KANJIDIC or KRADFILE were provided by Uros O. through his free database.",
 				links: [
 					{
 						label: "Source",
@@ -183,12 +183,26 @@ export const ATTRIBUTION_SECTIONS: AttributionSection[] = [
 				],
 			},
 			{
+				id: "hsk-lists",
+				name: "HSK 3.0 vocabulary and hanzi lists",
+				role: "Chinese HSK level tags",
+				license: "No open licence stated",
+				notes:
+					"Level tags come from the Chinese Proficiency Grading Standards for International Chinese Language Education (Ministry of Education of the PRC, 2021). Only the level of each word or character is used.",
+				links: [
+					{
+						label: "Standard (PDF)",
+						url: "http://www.moe.gov.cn/jyb_xwfb/gzdt_gzdt/s5987/202103/W020210329527301787356.pdf",
+					},
+				],
+			},
+			{
 				id: "zh-examples",
 				name: "Tatoeba sentence-pair exports",
-				role: "Chinese example sentences",
+				role: "Chinese and Japanese example sentences",
 				license: "CC BY 2.0 FR; some sentences also available under CC0 1.0",
 				notes:
-					"Used from assets/resources/example-chm-en.tsv to populate Chinese example sentences and links. Tatoeba states that textual sentences default to CC BY 2.0 FR, and its downloads page states that exported files are released under CC BY 2.0 FR, with some sentences also available under CC0 1.0.",
+					"Used from assets/resources/example-chm-en.tsv to populate Chinese example sentences and links, and through the Tanaka Corpus in JMdict for Japanese examples. Tatoeba states that textual sentences default to CC BY 2.0 FR, and its downloads page states that exported files are released under CC BY 2.0 FR, with some sentences also available under CC0 1.0.",
 				links: [
 					{
 						label: "Tatoeba Terms of Use",
