@@ -2,8 +2,8 @@
  * Maintainer step: compress `assets/database.db` for a GitHub Release and pin it
  * in scripts/data/db-release.json so `pnpm fetch:db` can find it.
  *
- *   pnpm seed && pnpm db:pack           # writes dist-data/database-<tag>.db.zst
- *   gh release create <tag> dist-data/database-<tag>.db.zst --notes-file DATA-LICENSE.md
+ *   pnpm seed && pnpm db:pack           # writes dist-data/database-<YYYYMMDD>.db.zst
+ *   gh release create db-<YYYYMMDD> dist-data/database-<YYYYMMDD>.db.zst --notes-file DATA-LICENSE.md
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -18,7 +18,7 @@ const main = async () => {
 
 	const level = Number(process.env.ZSTD_LEVEL ?? 19);
 	const tag = process.env.DB_TAG ?? `db-${new Date().toISOString().slice(0, 10).replaceAll("-", "")}`;
-	const asset = `database-${tag}.db.zst`;
+	const asset = `database-${tag.replace(/^db-/, "")}.db.zst`;
 	const outDir = path.join(process.cwd(), "dist-data");
 	const outPath = path.join(outDir, asset);
 	fs.mkdirSync(outDir, { recursive: true });

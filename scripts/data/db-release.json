@@ -1,9 +1,9 @@
 {
   "$comment": "Written by `pnpm db:pack`. Read by `pnpm fetch:db`. tag=null means no prebuilt DB has been published yet.",
-  "tag": null,
-  "asset": null,
-  "bytes": null,
-  "sha256": null,
-  "dbBytes": null,
-  "dbSha256": null
+  "tag": "db-20261115",
+  "asset": "database-20261115.db.zst",
+  "bytes": 179865734,
+  "sha256": "7d62d412361cce3fb47ca3490d5ce767c45643de44c09af5501cf7bb3c0cc085",
+  "dbBytes": 968945664,
+  "dbSha256": "b054ea3657be5e69813f4376fd2bf0055e8ffabfdde5bfe92e35945183ad7bad"
 }
