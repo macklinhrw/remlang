@@ -23,7 +23,6 @@ import {
 } from "@/scripts/data/download";
 import {
 	MIRROR_TAG,
-	OPTIONAL_LOCAL_INPUTS,
 	type OutputFile,
 	type OutputTree,
 	SOURCES,
@@ -227,11 +226,6 @@ const main = async () => {
 		}
 	}
 
-	for (const input of OPTIONAL_LOCAL_INPUTS) {
-		if (!fs.existsSync(abs(input.path))) {
-			console.log(`\nnote: optional ${RESOURCES_PATH}/${input.path} not present. ${input.why}`);
-		}
-	}
 	fs.rmSync(cacheDir, { recursive: true, force: true });
 	if (failures) throw new Error(`${failures} source(s) failed verification`);
 };

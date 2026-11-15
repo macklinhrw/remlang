@@ -81,6 +81,28 @@ export const ATTRIBUTION_SECTIONS: AttributionSection[] = [
 				],
 			},
 			{
+				id: "wordfreq-zh",
+				name: "wordfreq",
+				role: "Chinese frequency ranking",
+				license: "CC BY-SA 4.0",
+				notes:
+					"Used to rank Chinese dictionary entries by word frequency (wordfreq 3.1.1, Robyn Speer). The Chinese list combines several corpora, including SUBTLEX-CH (Cai, Q., & Brysbaert, M. (2010). SUBTLEX-CH: Chinese word and character frequencies based on film subtitles. PLoS One, 5(6), e10729), OpenSubtitles 2018, Wikipedia and Google Books Ngrams.",
+				links: [
+					{
+						label: "Source",
+						url: "https://github.com/rspeer/wordfreq",
+					},
+					{
+						label: "SUBTLEX-CH",
+						url: "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0010729",
+					},
+					{
+						label: "License",
+						url: "https://creativecommons.org/licenses/by-sa/4.0/",
+					},
+				],
+			},
+			{
 				id: "unidic-cwj",
 				name: "UniDic Contemporary Written Japanese",
 				role: "Primary Japanese pitch-accent data",

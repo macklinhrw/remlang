@@ -78,6 +78,9 @@ const KANJIUM_COMMIT = "9ebca4589565c696e7c39e089e2e928ad65f678c";
 const kanjium = (file: string) =>
 	`https://raw.githubusercontent.com/mifunetoshiro/kanjium/${KANJIUM_COMMIT}/${file}`;
 
+// wordfreq 3.1.1 (the last release; the repo's v3.2 tag is the same commit as the 3.1.1 wheel).
+const WORDFREQ_COMMIT = "42233e6c36ce792031bcccfa17cdd0cec9af5fa7";
+
 const EDRDG = "CC BY-SA 4.0 (EDRDG licence)";
 
 export const SOURCES: Source[] = [
@@ -212,6 +215,20 @@ export const SOURCES: Source[] = [
 			},
 		})),
 	},
+	{
+		id: "wordfreq-zh",
+		group: "zh",
+		name: "wordfreq 3.1.1 Chinese word frequencies",
+		license: "CC BY-SA 4.0 (wordfreq data)",
+		homepage: "https://github.com/rspeer/wordfreq",
+		kind: "file",
+		url: `https://raw.githubusercontent.com/rspeer/wordfreq/${WORDFREQ_COMMIT}/wordfreq/data/large_zh.msgpack.gz`,
+		output: {
+			path: "wordfreq/large_zh.msgpack.gz",
+			sha256: "e079d7aaff1cfb92874850cb3ffbc7b611af939d9d671c1cbda932d968467cdd",
+			bytes: 1773909,
+		},
+	},
 	...(
 		[
 			// [asset, local path, bytes, sha256, name, license, homepage]
@@ -240,15 +257,4 @@ export const SOURCES: Source[] = [
 			output: { path: local, sha256, bytes },
 		}),
 	),
-];
-
-/**
- * Optional inputs that cannot be redistributed. The seed runs without them;
- * see the README for what degrades.
- */
-export const OPTIONAL_LOCAL_INPUTS = [
-	{
-		path: "rank_freq.json",
-		why: "BCC/BLCU Chinese word-frequency list (no open licence). Without it, Chinese entries have no frequency rank: search loses its frequency boost and the 'common' badge is hidden for Chinese words.",
-	},
 ];

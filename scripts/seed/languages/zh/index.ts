@@ -4,6 +4,7 @@ import { convert } from "pinyin-pro";
 import * as OpenCC from "opencc-js";
 import * as nodejieba from "nodejieba";
 import { loadNormalizedData } from "@/scripts/seed/core/load";
+import { readWordfreqRanks } from "@/scripts/seed/languages/zh/wordfreq";
 import type {
   LanguageSeeder,
   LoadReport,
@@ -15,7 +16,8 @@ import type {
 
 const ZH_LANGUAGE_ID = "lang_zh";
 const CEDICT_FILE = "cedict_ts.u8";
-const RANK_FREQ_FILE = "rank_freq.json";
+const WORDFREQ_FILE = "wordfreq/large_zh.msgpack.gz";
+const WORDFREQ_DICTIONARY_ID = "dict_wordfreq_zh";
 const DECOMPOSITION_FILE = "wikimedia-decomposition.tsv";
 const VARIANTS_FILE = "CEDICT_variants_list_with_ratings.json";
 const EXAMPLES_FILE = "example-chm-en.tsv";
@@ -25,11 +27,6 @@ const SVGS_HANS_DIR = "animCJK/svgsZhHans";
 const SVGS_HANT_DIR = "animCJK/svgsZhHant";
 const SVGS_SPECIAL_DIR = "animCJK/svgsZhHansSpecial";
 const HSK_SENTENCE_TOLERANCE = 1;
-
-type FrequencyRow = {
-  key: string;
-  rank: number;
-};
 
 type RatedVariant = {
   simplified: string;
@@ -168,19 +165,12 @@ const buildHskWordLookup = (resourcesDir: string) => {
 };
 
 /**
- * Optional: the BCC/BLCU frequency list has no open licence, so it is not
- * fetched. Without it Chinese entries simply carry no frequency rank.
+ * Word frequency ranks from wordfreq (CC BY-SA 4.0), keyed by simplified form.
+ * They only order entries: transform() renumbers the matched primary entries
+ * 1..n by this rank.
  */
-const buildFrequencyLookup = (resourcesDir: string) => {
-  const filePath = path.join(resourcesDir, RANK_FREQ_FILE);
-  if (!fs.existsSync(filePath)) return {};
-  const rows = JSON.parse(readText(filePath)) as FrequencyRow[];
-
-  return rows.reduce<Record<string, number>>((acc, row) => {
-    acc[cleanKey(row.key)] = row.rank + 1;
-    return acc;
-  }, {});
-};
+const buildFrequencyLookup = (resourcesDir: string): Record<string, number> =>
+  Object.fromEntries(readWordfreqRanks(fs.readFileSync(path.join(resourcesDir, WORDFREQ_FILE))));
 
 const buildDecompositionLookup = (resourcesDir: string) => {
   const lines = readLines(path.join(resourcesDir, DECOMPOSITION_FILE));
@@ -382,12 +372,22 @@ export const zhSeeder: LanguageSeeder<ZhExtracted> = {
         sourceUrl: "https://www.mdbg.net/chinese/dictionary?page=cc-cedict",
         seedModule: "zh",
       },
+      {
+        id: WORDFREQ_DICTIONARY_ID,
+        languageId: ZH_LANGUAGE_ID,
+        slug: "wordfreq-zh",
+        name: "wordfreq Chinese",
+        sourceType: "frequency_corpus",
+        sourceUrl: "https://github.com/rspeer/wordfreq",
+        seedModule: "zh",
+      },
     ];
   },
 
   async prepare(ctx) {
     const requiredFiles = [
       path.join(ctx.resourcesDir, CEDICT_FILE),
+      path.join(ctx.resourcesDir, WORDFREQ_FILE),
       path.join(ctx.resourcesDir, DECOMPOSITION_FILE),
       path.join(ctx.resourcesDir, VARIANTS_FILE),
       path.join(ctx.resourcesDir, EXAMPLES_FILE),
@@ -400,11 +400,6 @@ export const zhSeeder: LanguageSeeder<ZhExtracted> = {
       if (!fs.existsSync(filePath)) {
         throw new Error(`Missing Chinese seed file: ${filePath} (run \`pnpm fetch:resources\`)`);
       }
-    }
-    if (!fs.existsSync(path.join(ctx.resourcesDir, RANK_FREQ_FILE))) {
-      ctx.logger.warn(
-        `optional ${RANK_FREQ_FILE} not found; Chinese entries will have no frequency rank`,
-      );
     }
 
     const requiredSvgDirs = [
@@ -772,6 +767,17 @@ export const zhSeeder: LanguageSeeder<ZhExtracted> = {
           name: "CC-CEDICT",
           sourceType: "dictionary",
           sourceUrl: "https://www.mdbg.net/chinese/dictionary?page=cc-cedict",
+          license: "CC BY-SA 4.0",
+          seedModule: "zh",
+        },
+        {
+          id: WORDFREQ_DICTIONARY_ID,
+          languageId: ZH_LANGUAGE_ID,
+          slug: "wordfreq-zh",
+          name: "wordfreq Chinese",
+          sourceType: "frequency_corpus",
+          sourceUrl: "https://github.com/rspeer/wordfreq",
+          versionTag: "3.1.1",
           license: "CC BY-SA 4.0",
           seedModule: "zh",
         },
