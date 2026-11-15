@@ -1,0 +1,85 @@
+# Nothing here builds native code (no Gradle, no Xcode), so Linux is the
+# cheapest option. The Metro bundle step catches broken imports and missing
+# assets without needing the ~970 MB dictionary database.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "17 6 * * 1" # weekly: check the pinned data-source URLs still resolve
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  app:
+    name: App (typecheck, lint, test, bundle)
+    if: github.event_name != 'schedule'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+
+      # Version comes from "packageManager" in package.json (pnpm@10.13.1).
+      # pnpm 11 ignores the "pnpm" field, which would silently drop patches/.
+      - uses: pnpm/action-setup@v6
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Unit tests (node:test via tsx)
+        run: pnpm exec tsx --test "lib/**/*.test.ts" "scripts/**/*.test.ts"
+
+      - name: Bundle (Android, Metro)
+        # No Clerk key on purpose: proves the offline build path works.
+        run: pnpm exec expo export --platform android --output-dir dist
+
+  backend:
+    name: Sync backend (typecheck, test)
+    if: github.event_name != 'schedule'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v7
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.2
+      - run: bun install --frozen-lockfile
+      - run: bun run check
+      - run: bun test
+
+  data-sources:
+    name: Pinned data sources resolve
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      # HEAD requests only; fails if an upstream moves or a mirror asset is missing.
+      - run: pnpm fetch:resources --resolve
