@@ -1,10 +1,10 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import Database from "better-sqlite3";
 import { drizzle } from "drizzle-orm/better-sqlite3";
 import { eq } from "drizzle-orm";
 import type { DrizzleInstance } from "@/lib/database/DrizzleContext";
 import * as schema from "@/lib/database/schema";
+import { createMigratedSqlite } from "@/lib/testing/migratedTestDb";
 import { setGlobalReviewLimitSettings } from "./reviewLimits";
 import {
 	getDeckAvailableDueCount,
@@ -15,141 +15,7 @@ import {
 } from "./fsrs";
 
 const createTestDb = () => {
-	const sqlite = new Database(":memory:");
-	sqlite.exec(`
-		CREATE TABLE app_settings (
-			key text PRIMARY KEY NOT NULL,
-			value text,
-			updated_at text
-		);
-		CREATE TABLE params (
-			id text PRIMARY KEY NOT NULL,
-			weights text,
-			request_retention real,
-			maximum_interval integer,
-			enable_fuzz integer,
-			enable_short_term integer,
-			card_limit integer,
-			lapses integer
-		);
-		CREATE TABLE decks (
-			id text PRIMARY KEY NOT NULL,
-			name text NOT NULL,
-			created_at text,
-			updated_at text,
-			visibility text,
-			is_starred integer,
-			folder_id text,
-			language_id text,
-			source_review_type text,
-			primary_deck_id text,
-			new_cards_paused integer,
-			daily_new_limit_enabled integer,
-			daily_new_limit integer,
-			daily_review_limit_enabled integer,
-			daily_review_limit integer,
-			deleted integer DEFAULT 0 NOT NULL,
-			deleted_at text
-		);
-		CREATE TABLE decks_folders (
-			id text PRIMARY KEY NOT NULL,
-			name text NOT NULL,
-			language_id text,
-			created_at text,
-			updated_at text,
-			parent_id text,
-			new_cards_paused integer,
-			daily_new_limit_enabled integer,
-			daily_new_limit integer,
-			daily_review_limit_enabled integer,
-			daily_review_limit integer,
-			deleted integer DEFAULT 0 NOT NULL,
-			deleted_at text
-		);
-		CREATE TABLE knowledge (
-			id text PRIMARY KEY NOT NULL,
-			created_at text,
-			updated_at text,
-			front text NOT NULL,
-			definitions text NOT NULL,
-			source_definitions text,
-			pronunciation text,
-			word_id text,
-			entry_id text,
-			focus text,
-			show_focus integer,
-			focus_allows_duplicates integer,
-			note text,
-			tags text,
-			primary_pitch_accent_dictionary_id text,
-			primary_pitch_accent_reading text,
-			primary_pitch_accent_accent_number integer,
-			primary_pitch_accent_is_custom integer,
-			config_signature text,
-			definition_config text,
-			config_label text,
-			due text NOT NULL,
-			stability real NOT NULL,
-			difficulty real NOT NULL,
-			elapsed_days real NOT NULL,
-			scheduled_days real NOT NULL,
-			learning_steps integer NOT NULL,
-			reps integer NOT NULL,
-			lapses integer NOT NULL,
-			state text NOT NULL,
-			last_review text NOT NULL,
-			review_type text NOT NULL,
-			deleted integer DEFAULT 0,
-			suspended integer DEFAULT 0
-		);
-		CREATE TABLE cards (
-			id text PRIMARY KEY NOT NULL,
-			created_at text,
-			updated_at text,
-			deck_id text NOT NULL,
-			knowledge_id text NOT NULL,
-			note text,
-			tags text,
-			deleted integer DEFAULT 0,
-			deleted_at text
-		);
-		CREATE TABLE review_log (
-			id text PRIMARY KEY NOT NULL,
-			rating text,
-			knowledge_id text,
-			review text NOT NULL,
-			due text NOT NULL,
-			stability real NOT NULL,
-			difficulty real NOT NULL,
-			elapsed_days real NOT NULL,
-			scheduled_days real NOT NULL,
-			learning_steps integer NOT NULL,
-			state text NOT NULL,
-			last_elapsed_days real NOT NULL,
-			deleted integer DEFAULT 0,
-			created_at text,
-			updated_at text
-		);
-		CREATE TABLE review_undo (
-			id text PRIMARY KEY NOT NULL,
-			knowledge_id text NOT NULL,
-			review_log_id text NOT NULL,
-			due text NOT NULL,
-			stability real NOT NULL,
-			difficulty real NOT NULL,
-			elapsed_days real NOT NULL,
-			scheduled_days real NOT NULL,
-			learning_steps integer NOT NULL,
-			reps integer NOT NULL,
-			lapses integer NOT NULL,
-			state text NOT NULL,
-			last_review text NOT NULL,
-			undone integer DEFAULT 0 NOT NULL,
-			invalidated integer DEFAULT 0 NOT NULL,
-			created_at text,
-			updated_at text
-		);
-	`);
+	const sqlite = createMigratedSqlite();
 
 	const db = drizzle(sqlite, { schema }) as unknown as DrizzleInstance;
 	(
