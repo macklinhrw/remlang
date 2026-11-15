@@ -1,7 +1,7 @@
 # Remlang data licence
 
 This file covers the data released alongside the code, not the code itself
-(the code is GPL-3.0-or-later).
+(the code is AGPL-3.0-or-later).
 
 ## Prebuilt dictionary database (`db-*` releases)
 

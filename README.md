@@ -85,6 +85,6 @@ This is a personal project, most actively developed in March and April 2026. And
 
 ## License
 
-The code is licensed under [GPL-3.0-or-later](LICENSE).
+The code is licensed under [AGPL-3.0-or-later](LICENSE). The AGPL's network clause covers the sync backend: if you run a modified version as a service, you must offer its source to its users.
 
 The dictionary database and the data it's built from keep their own licenses, mostly CC BY-SA 4.0, so the prebuilt database is released under CC BY-SA 4.0 ([DATA-LICENSE.md](DATA-LICENSE.md)). [THIRD_PARTY.md](THIRD_PARTY.md) has the full attribution list, and the same list is shown on the in-app About screen.

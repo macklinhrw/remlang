@@ -1,6 +1,6 @@
 # Third-party data and assets
 
-Remlang's code is GPL-3.0-or-later (see [LICENSE](LICENSE)). The dictionary
+Remlang's code is AGPL-3.0-or-later (see [LICENSE](LICENSE)). The dictionary
 database and the data it is built from are not covered by the code licence;
 each source keeps its own licence, listed below. The prebuilt database
 (GitHub Releases, `db-*`) is distributed under CC BY-SA 4.0; see
