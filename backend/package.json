@@ -1,6 +1,7 @@
 {
   "name": "remlang-sync-backend",
   "private": true,
+  "license": "GPL-3.0-or-later",
   "type": "module",
   "scripts": {
     "dev": "bun --hot src/index.ts",

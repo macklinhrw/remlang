@@ -8,7 +8,7 @@
  *
  * Sources with no stable upstream URL (rolling exports, owner-derived files)
  * are served from this repo's `data-sources-v1` GitHub Release instead. They
- * are redistributed there under their original licenses (see LICENSING.md).
+ * are redistributed there under their original licenses (see THIRD_PARTY.md and DATA-LICENSE.md).
  */
 
 export type SourceGroup = "ja" | "zh";

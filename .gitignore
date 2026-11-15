@@ -50,7 +50,7 @@ assets/database.db
 *.zst
 dist-data/
 
-# Textbook-derived decks (private; see LICENSING.md)
+# Textbook-derived decks (kept out of the repository; see THIRD_PARTY.md)
 assets/decklists/
 
 # Production sync DB dumps
