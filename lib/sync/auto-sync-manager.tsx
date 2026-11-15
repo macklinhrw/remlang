@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useAuth } from "@clerk/expo";
+import { useAccount } from "@/lib/auth/account";
 import { useDrizzle } from "@/lib/database/DrizzleContext";
 import { useAppLanguage } from "@/lib/store/appLanguageStore";
 import { refreshDecksStore } from "@/lib/store/decksStore";
@@ -10,7 +10,7 @@ import { useSyncSettings } from "@/lib/sync/settings";
 
 export function AutoSyncManager() {
 	const db = useDrizzle();
-	const { isSignedIn, getToken } = useAuth();
+	const { isSignedIn, getToken } = useAccount();
 	const { activeLanguageId } = useAppLanguage();
 	const {
 		isReady,

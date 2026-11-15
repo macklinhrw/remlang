@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Pressable, ScrollView, View } from "react-native";
 import { useRouter } from "expo-router";
-import { useAuth, useClerk, useUser } from "@clerk/expo";
+import { useAccount } from "@/lib/auth/account";
 import { ReviewLimitEditor } from "@/components/review/review-limit-editor";
 import { Text } from "@/components/ui/text";
 import { useDrizzle } from "@/lib/database/DrizzleContext";
@@ -45,9 +45,8 @@ const formatSyncTimestamp = (value: string | null) => {
 export default function SettingsPage() {
 	const router = useRouter();
 	const drizzle = useDrizzle();
-	const { isSignedIn } = useAuth();
-	const { user } = useUser();
-	const { signOut } = useClerk();
+	const account = useAccount();
+	const { isSignedIn, signOut } = account;
 	const { activeLanguageId, availableLanguages, setActiveLanguageId } =
 		useAppLanguage();
 	const strokeAnimationSpeed = useStrokeAnimationSpeed();
@@ -329,20 +328,22 @@ export default function SettingsPage() {
 
 				<View className="mt-2.5 rounded-lg border border-white/8 bg-[#101114] px-3 py-2.5">
 					<Text className="text-sm font-medium text-zinc-100">
-						{isSignedIn
-							? user?.primaryEmailAddress?.emailAddress ??
-								user?.emailAddresses[0]?.emailAddress ??
-								"No email available"
-							: "Not signed in"}
+						{!account.isEnabled
+							? "Offline build"
+							: isSignedIn
+								? account.email ?? "No email available"
+								: "Not signed in"}
 					</Text>
 					<Text className="mt-0.5 text-xs text-zinc-500">
-						{isSignedIn
-							? `ID: ${user?.id ?? "Loading..."}`
-							: "Sign in for cloud backup and sync."}
+						{!account.isEnabled
+							? "Set EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY to enable accounts and cloud sync."
+							: isSignedIn
+								? `ID: ${account.userId ?? "Loading..."}`
+								: "Sign in for cloud backup and sync."}
 					</Text>
 				</View>
 
-				{isSignedIn ? (
+				{!account.isEnabled ? null : isSignedIn ? (
 					<Pressable
 						onPress={() => void signOut()}
 						className="mt-2 flex-row items-center justify-center gap-1.5 rounded-xl border border-white/8 bg-[#101114] px-3 py-2.5"

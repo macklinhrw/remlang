@@ -61,7 +61,14 @@ const loadLocalEnv = () => {
 
 loadLocalEnv();
 
-const SOURCE_ROOT = "/path/to/tobira-vocab";
+// Folder containing "Tobira 1/L4/L4-vocab.tsv" etc. Textbook data is not distributed with this repo.
+const SOURCE_ROOT = (() => {
+	const value = process.env.TOBIRA_SOURCE_ROOT?.trim();
+	if (!value) {
+		throw new Error("Set TOBIRA_SOURCE_ROOT to your local folder of Tobira vocabulary TSVs.");
+	}
+	return path.resolve(value);
+})();
 const OUTPUT_ROOT = path.join(process.cwd(), "assets/decklists");
 const STATUS_FILE_PATH = path.join(OUTPUT_ROOT, "tobira-import-status.json");
 const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";

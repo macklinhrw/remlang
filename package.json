@@ -19,7 +19,7 @@
 		"audit:ja-pitch-accent": "npx tsx ./scripts/audit-ja-pitch-accent-import.ts",
 		"inspect:ja-pitch-accent": "npx tsx ./scripts/inspect-ja-pitch-accent.ts",
 		"seed": "npx tsx ./scripts/seed-expo.ts",
-		"deck": "cd backend && $HOME/.bun/bin/bun src/scripts/decks.ts"
+		"deck": "cd backend && bun src/scripts/decks.ts"
 	},
 	"jest": {
 		"preset": "jest-expo"

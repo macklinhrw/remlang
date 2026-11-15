@@ -11,7 +11,7 @@ import {
 import { useSelector } from "@legendapp/state/react";
 import { useRouter } from "expo-router";
 import { useFocusEffect } from "@react-navigation/native";
-import { useAuth } from "@clerk/expo";
+import { isAccountEnabled, useAccount } from "@/lib/auth/account";
 import { ReviewLimitEditor } from "@/components/review/review-limit-editor";
 import {
 	ChevronDown,
@@ -159,7 +159,7 @@ export default function DecksPage() {
 	const router = useRouter();
 	const drizzle = useDrizzle();
 	const { activeLanguageId } = useAppLanguage();
-	const { isSignedIn, getToken } = useAuth();
+	const { isSignedIn, getToken } = useAccount();
 	const syncSettings = useSyncSettings();
 	const [selectedDeck, setSelectedDeck] = useState<DeckListItem | null>(null);
 	const [selectedFolder, setSelectedFolder] = useState<DeckFolderListItem | null>(null);
@@ -471,6 +471,13 @@ export default function DecksPage() {
 
 	const handleManualSync = useCallback(async () => {
 		if (!isSignedIn) {
+			if (!isAccountEnabled) {
+				Alert.alert(
+					"Cloud sync is not configured",
+					"This build has no EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY, so it runs offline only.",
+				);
+				return;
+			}
 			router.push("/sign-in");
 			return;
 		}

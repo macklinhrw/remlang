@@ -1,13 +1,7 @@
 import "react-native-gesture-handler";
 
-// export default function RootLayout() {
-//   return <Stack screenOptions={{ headerShown: false }} />;
-// }
-
 import "~/css/global.css";
 
-import { ClerkProvider } from "@clerk/expo";
-import { tokenCache } from "@clerk/expo/token-cache";
 import {
 	Theme,
 	ThemeProvider,
@@ -30,23 +24,19 @@ import {
 import { NAV_THEME } from "~/lib/constants";
 import { useColorScheme } from "~/lib/useColorScheme";
 
-// --- Expo SQLite Imports ---
-import { SQLiteProvider, useSQLiteContext } from "expo-sqlite"; // <--- Use /next
-// --- End Expo SQLite Imports ---
-
-// --- Drizzle Imports ---
-import { drizzle } from "drizzle-orm/expo-sqlite"; // <--- Keep this for creating instance
+import { SQLiteProvider, useSQLiteContext } from "expo-sqlite";
+import { drizzle } from "drizzle-orm/expo-sqlite";
 import { useMigrations } from "drizzle-orm/expo-sqlite/migrator";
-import migrations from "~/drizzle/migrations.js"; // Adjust path if needed
-import * as schema from "~/lib/database/schema"; // <--- Import schema
+import migrations from "~/drizzle/migrations.js";
+import * as schema from "~/lib/database/schema";
 import { Text } from "~/components/ui/text";
-import { DrizzleProvider } from "~/lib/database/DrizzleContext"; // <--- Import the provider
+import { DrizzleProvider } from "~/lib/database/DrizzleContext";
+import { AccountProvider } from "@/lib/auth/account";
 import { bootCryptoPolyfill } from "@/lib/crypto-polyfill";
 import { ensureBundledDatabaseAsync } from "@/lib/database/bootstrap";
 import { repairDeckFolderTrashSchemaAsync } from "@/lib/database/migrationRepair";
 import { AppLanguageProvider, useAppLanguage } from "@/lib/store/appLanguageStore";
 import { AutoSyncManager } from "@/lib/sync/auto-sync-manager";
-// --- End Drizzle Imports ---
 
 import {
 	DrawerContentScrollView,
@@ -60,18 +50,10 @@ const DARK_THEME: Theme = {
 	...DarkTheme,
 	colors: NAV_THEME.dark,
 };
-const clerkPublishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
-
-if (!clerkPublishableKey) {
-	throw new Error("Add EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY to the .env file.");
-}
-
 export {
 	// Catch any errors thrown by the Layout component.
 	ErrorBoundary,
 } from "expo-router";
-
-// No longer import db directly here, it will be created via context
 
 export default function RootLayout() {
 	const [databaseReady, setDatabaseReady] = React.useState(Platform.OS === "web");
@@ -143,15 +125,14 @@ export default function RootLayout() {
 		);
 	}
 
-	// Wrap the entire app logic with SQLiteProvider
 	return (
-		<ClerkProvider publishableKey={clerkPublishableKey!} tokenCache={tokenCache}>
+		<AccountProvider>
 			<SQLiteProvider databaseName="database.db">
 				<ThemeProvider value={DARK_THEME}>
 					<AppContent />
 				</ThemeProvider>
 			</SQLiteProvider>
-		</ClerkProvider>
+		</AccountProvider>
 	);
 }
 
